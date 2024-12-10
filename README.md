@@ -24,7 +24,7 @@ This project demonstrates hosting my personal portfolio on GitHub Pages, utilizi
 4. **Technologies Used:**
    - **Version Control:** Git, GitHub
    - **CI/CD Tools:** GitHub Actions
-   - **Frontend Development:** HTML, CSS
+   - **Frontend Development:** HTML, CSS, JavaScript (basics)
 
 ## Key Objectives and Outcomes
 - Demonstrated expertise in Git and GitHub by implementing a structured branching workflow and enforcing a code review process to ensure high-quality contributions.
@@ -32,3 +32,4 @@ This project demonstrates hosting my personal portfolio on GitHub Pages, utilizi
 - Built a responsive and visually appealing portfolio using HTML and CSS, hosted on a reliable platform with high availability.
 
 This project highlights my ability to manage codebases, apply industry-standard development workflows, enforce code quality through pull requests and reviews, and utilize CI/CD tools for seamless deployment.
+
