@@ -6,11 +6,9 @@ RUN rm -rf /usr/share/nginx/html/*
 # Copy website files to Nginx's serving directory
 COPY . /usr/share/nginx/html
 
-# Copy the custom Nginx configuration file
+# Copy the fixed Nginx configuration
 COPY nginx.conf /etc/nginx/nginx.conf
-
-# Set the working directory
-WORKDIR /usr/share/nginx/html
+COPY default.conf /etc/nginx/conf.d/default.conf
 
 # Expose port 80 to allow access to the website
 EXPOSE 80
