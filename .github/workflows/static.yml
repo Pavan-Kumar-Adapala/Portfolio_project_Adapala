@@ -31,28 +31,28 @@ jobs:
     steps:
       # This step is used to display the VM information
       # and the GitHub Actions environment variables
-      - name: Display VM Information
-        id: vm-info
-        run: |
-          echo "##[group]VM Information"
-          echo "Operating System: $(uname -a)"
-          echo "GitHub Runner: $RUNNER_NAME"
-          echo "Runner OS: $RUNNER_OS"
-          echo "Runner Architecture: $RUNNER_ARCH"
-          echo "Runner Temp Path: $RUNNER_TEMP"
-          echo "Runner Workspace Path: $RUNNER_WORKSPACE"
-          echo "GitHub Workspace: $GITHUB_WORKSPACE"
-          echo "GitHub Repository: $GITHUB_REPOSITORY"
-          echo "GitHub Ref: $GITHUB_REF"
-          echo "GitHub SHA: $GITHUB_SHA"
-          echo "Processor Info:"
-          lscpu
-          echo "Memory Info:"
-          free -h
-          echo "Disk Space Info:"
-          df -h
-          echo "##[endgroup]"
-          echo "##[group]GitHub Actions Environment Variables"
+      # - name: Display VM Information
+      #   id: vm-info
+      #   run: |
+      #     echo "##[group]VM Information"
+      #     echo "Operating System: $(uname -a)"
+      #     echo "GitHub Runner: $RUNNER_NAME"
+      #     echo "Runner OS: $RUNNER_OS"
+      #     echo "Runner Architecture: $RUNNER_ARCH"
+      #     echo "Runner Temp Path: $RUNNER_TEMP"
+      #     echo "Runner Workspace Path: $RUNNER_WORKSPACE"
+      #     echo "GitHub Workspace: $GITHUB_WORKSPACE"
+      #     echo "GitHub Repository: $GITHUB_REPOSITORY"
+      #     echo "GitHub Ref: $GITHUB_REF"
+      #     echo "GitHub SHA: $GITHUB_SHA"
+      #     echo "Processor Info:"
+      #     lscpu
+      #     echo "Memory Info:"
+      #     free -h
+      #     echo "Disk Space Info:"
+      #     df -h
+      #     echo "##[endgroup]"
+      #     echo "##[group]GitHub Actions Environment Variables"
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -78,28 +78,28 @@ jobs:
     steps:
       # This step is used to display the VM information
       # and the GitHub Actions environment variables
-      - name: Display VM Information Used  for Docker Build and Push
-        id: vm-info
-        run: |
-          echo "##[group]VM Information"
-          echo "Operating System: $(uname -a)"
-          echo "GitHub Runner: $RUNNER_NAME"
-          echo "Runner OS: $RUNNER_OS"
-          echo "Runner Architecture: $RUNNER_ARCH"
-          echo "Runner Temp Path: $RUNNER_TEMP"
-          echo "Runner Workspace Path: $RUNNER_WORKSPACE"
-          echo "GitHub Workspace: $GITHUB_WORKSPACE"
-          echo "GitHub Repository: $GITHUB_REPOSITORY"
-          echo "GitHub Ref: $GITHUB_REF"
-          echo "GitHub SHA: $GITHUB_SHA"
-          echo "Processor Info:"
-          lscpu
-          echo "Memory Info:"
-          free -h
-          echo "Disk Space Info:"
-          df -h
-          echo "##[endgroup]"
-          echo "##[group]GitHub Actions Environment Variables"
+      # - name: Display VM Information Used  for Docker Build and Push
+      #   id: vm-info
+      #   run: |
+      #     echo "##[group]VM Information"
+      #     echo "Operating System: $(uname -a)"
+      #     echo "GitHub Runner: $RUNNER_NAME"
+      #     echo "Runner OS: $RUNNER_OS"
+      #     echo "Runner Architecture: $RUNNER_ARCH"
+      #     echo "Runner Temp Path: $RUNNER_TEMP"
+      #     echo "Runner Workspace Path: $RUNNER_WORKSPACE"
+      #     echo "GitHub Workspace: $GITHUB_WORKSPACE"
+      #     echo "GitHub Repository: $GITHUB_REPOSITORY"
+      #     echo "GitHub Ref: $GITHUB_REF"
+      #     echo "GitHub SHA: $GITHUB_SHA"
+      #     echo "Processor Info:"
+      #     lscpu
+      #     echo "Memory Info:"
+      #     free -h
+      #     echo "Disk Space Info:"
+      #     df -h
+      #     echo "##[endgroup]"
+      #     echo "##[group]GitHub Actions Environment Variables"
 
       - name: Checkout
         uses: actions/checkout@v4
@@ -112,17 +112,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
 
-      - name: Print Docker login info
-        run: |
-          echo "DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
-          echo "DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}"
-
       # Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+          logout: false
       
       # Build and push the Docker image
       # This step builds the Docker image and pushes it to Docker Hub
