@@ -1,35 +1,119 @@
-# Automated Portfolio Hosting with GitHub Pages and GitHub Actions
+# Automated Portfolio Hosting with GitHub Pages, Docker, and ArgoCD
 
-This project demonstrates hosting my personal portfolio on GitHub Pages, utilizing GitHub Actions for automated deployment of static content. The project is structured to replicate a real-world software development workflow with a well-defined branching strategy, pull request management, and deployment pipeline.
+This project showcases the automated deployment of a personal portfolio using **GitHub Actions**, extending the workflow to include Docker image creation and pushing to DockerHub. Additionally, it outlines the next steps for implementing **Continuous Deployment (CD)** using **ArgoCD**, demonstrating a modern DevOps workflow.
 
-## Project Details
+## ✅ Project Overview
 
-1. **Branching Strategy:**
-   - Implemented two long-lived branches:
-     - `main` (default): Represents the production-ready code.
-     - `development`: Serves as the integration branch where features are merged and tested before release.
-   - Created short-lived **feature branches** from the `development` branch for implementing specific functionality or updates.
-   - Managed urgent fixes by creating two short-lived **hotfix branches** from the `main` branch. 
-     - After resolving the issues, the hotfix branches were merged back into both `main` and `development` branches to ensure all branches reflected the fixes.
-   - Finalized production-ready code by creating a **release branch** from the `development` branch, containing tested and approved code ready for deployment.
+* Automated deployment to **GitHub Pages** using **GitHub Actions**.
+* Implementation of **Docker build and push job** to DockerHub for containerization.
+* Well-structured branching strategy that simulates a real-world development environment.
+* Preparation for **ArgoCD** integration for continuous deployment.
 
-2. **Pull Request Workflow:**
-   - All code changes were integrated via **pull requests (PRs)** created from feature or hotfix branches.
-   - Configured a mandatory **approved review** process for all pull requests to ensure code quality, consistency, and adherence to project standards before merging.
+## 🚀 Project Structure and Workflow
 
-3. **Deployment:**
-   - Automated deployment of the portfolio to GitHub Pages using **GitHub Actions**.
-   - Configured a CI/CD pipeline to build and deploy static HTML and CSS content to GitHub Pages whenever changes are pushed to the `main` branch.
+### **Branching Strategy:**
 
-4. **Technologies Used:**
-   - **Version Control:** Git, GitHub
-   - **CI/CD Tools:** GitHub Actions
-   - **Frontend Development:** HTML, CSS, JavaScript (basics)
+* **main (default):** Production-ready code.
+* **development:** Integration branch for testing new features.
+* Short-lived **feature branches** for implementing specific functionalities.
+* **hotfix branches** for urgent fixes, merged back into both `main` and `development` branches.
+* **release branch:** Stabilized and tested code before merging to `main`.
 
-## Key Objectives and Outcomes
-- Demonstrated expertise in Git and GitHub by implementing a structured branching workflow and enforcing a code review process to ensure high-quality contributions.
-- Showcased skills in setting up automated deployments, streamlining the process of publishing updates to a live website.
-- Built a responsive and visually appealing portfolio using HTML and CSS, hosted on a reliable platform with high availability.
+![Branching Strategy](https://raw.githubusercontent.com/Pavan-Kumar-Adapala/Portfolio_project_Adapala/main/assets/img/branching_strategy.jpg)
 
-This project highlights my ability to manage codebases, apply industry-standard development workflows, enforce code quality through pull requests and reviews, and utilize CI/CD tools for seamless deployment.
+### **Pull Request Workflow:**
+
+* All changes are integrated through pull requests (PRs) from feature/hotfix branches.
+* Mandatory code review and approval for all PRs to enforce quality and consistency.
+
+### **Deployment Workflow:**
+
+* **GitHub Pages:** Automated deployment of static HTML, CSS, and JavaScript content.
+* **DockerHub:**
+
+  * Automated Docker build and push using GitHub Actions.
+  * The Docker image is tagged as `latest` for easy tracking.
+  * Potential for versioning in future iterations.
+
+### **Technologies Used:**
+
+* Version Control: **Git, GitHub**
+* CI/CD: **GitHub Actions, DockerHub**
+* Containerization: **Docker**
+* Deployment: **GitHub Pages**, **ArgoCD (Planned)**
+* Frontend: **HTML, CSS, JavaScript (basic)**
+
+## Implementation Details
+
+### **GitHub Actions Workflow: Docker Build and Push**
+
+* The workflow includes:
+
+  * **Checkout repository code.**
+  * **Build Docker image** from the source code.
+  * **Push the Docker image** to DockerHub with the `latest` tag.
+  * **Logout** from DockerHub to ensure security and prevent token leakage.
+
+### **Example Workflow Snippet:**
+
+```yaml
+  # Build and Push Docker Image
+  build-and-push:
+    runs-on: ubuntu-latest
+    needs: deploy-pages
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # Set up Docker Buildx to enable advanced build capabilities like multi-platform builds
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      # Login to Docker Hub
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+          logout: false
+      
+      # Build and push the Docker image
+      # This step builds the Docker image and pushes it to Docker Hub
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v4
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/portfolio:latest
+
+      # Logout from Docker Hub to ensure security and clean up the session
+      - name: Logout from Docker Hub
+        run: |
+          docker logout
+          echo "Logged out from Docker Hub"
+
+```
+
+## Next Steps: Implementing ArgoCD
+
+* **Why ArgoCD?**
+
+  * Continuous Deployment with GitOps principles.
+  * Real-time monitoring and synchronization of Kubernetes resources.
+  * Declarative configuration management with automated rollbacks and rollouts.
+
+* **Implementation Plan:**
+
+  * Deploy Docker container to a Kubernetes cluster using ArgoCD.
+  * Implement `Application.yaml` to define deployment configurations.
+  * Set up automated synchronization between GitHub repository and Kubernetes cluster.
+  * Monitor deployments and implement rollback strategies for failed updates.
+
+## Key DevOps Skills Highlighted
+
+* Experience in setting up **CI/CD pipelines** using **GitHub Actions**.
+* Proficient in creating and pushing **Docker images** to DockerHub.
+* Demonstrated ability to **implement new tools** (e.g., ArgoCD) and integrate them into existing workflows.
+* Knowledge of structured branching strategies and **pull request management**.
 
